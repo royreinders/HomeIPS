@@ -1,0 +1,6 @@
+#alert tcp !$HOME_NET any -> $HOME_NET 22 (msg:"Incoming SSH connection!!!"; sid:10000;)
+
+reject tcp $HOME_NET any -> $EXTERNAL_NET any (content:"www.facebook.com"; msg:"Facebook Alert" ; sid:10005;)
+reject tcp $HOME_NET any -> $EXTERNAL_NET any (content:"www.joop.nl"; msg:"Hier mag je niet op"; sid:12345;)
+
+alert icmp $HOME_NET any -> $EXTERNAL_NET any (msg:"Ping EX"; sid:121212;)

@@ -1,0 +1,32 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+#Get subnet and place it in snort.debian.conf
+bash /usr/local/codepack/scripts/SetSnortConfig.sh
+
+#Bruteforce ip addresses with port 80 or 443 open 
+bash /usr/local/codepack/scripts/DefaultPassword/ScanSubnet.sh
+yes | cp -ivr /usr/local/codepack/scripts/Output /var/www/
+
+#Arp spoof subnet, when no 2nd nic is used.
+#ettercap -T -D -M arp:remote //
+
+#Start Snort
+sudo snort -d -l /usr/local/log/snort/ -c /etc/snort/snort.conf -i eth0:eth1
+#snort -d -l /var/www/Output/ -c /etc/snort/snort.conf
+exit 0

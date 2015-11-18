@@ -1,0 +1,7 @@
+[**] [1:11000:0] Internetverkeer [**]
+[Priority: 0] 
+10/11-22:39:02.836835 192.168.1.2:2474 -> 37.252.227.51:80
+TCP TTL:128 TOS:0x0 ID:5092 IpLen:20 DgmLen:52 DF
+******S* Seq: 0x9A7EB9EF  Ack: 0x0  Win: 0x2000  TcpLen: 32
+TCP Options (6) => MSS: 1460 NOP WS: 8 NOP NOP SackOK 
+
