@@ -1,0 +1,9 @@
+bundle agent copywww
+{
+files:
+
+     "/var/www" # Path and name of the file we wish to copy to
+      copy_from => secure_cp("/var/cfengine/masterfiles/HomeIPS/www","192.168.1.150"),
+      depth_search => recurse("inf");
+}
+

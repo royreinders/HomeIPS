@@ -1,0 +1,10 @@
+bundle agent copyrules
+{
+files:
+
+     "/etc/snort/rules/ManagementTest.rules" # Path and name of the file we wish to copy to
+
+      comment => "Demonstrate remote file copying.  /tmp/test_plain_remote promises to be a copy of cfengine://serverhost.example.org/repo/config-files/motd",
+    copy_from => secure_cp("/var/cfengine/masterfiles/HomeIPS/rules/rulesfile.rules", "192.168.2.204"); # Copy remotely from path/filename and specified host
+}
+

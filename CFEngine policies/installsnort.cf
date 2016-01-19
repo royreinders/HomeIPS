@@ -1,0 +1,7 @@
+bundle agent installsnort
+{
+packages:
+  "snort"
+    package_policy => "add",     # What to do with packages: install them.
+         package_method => generic;
+}

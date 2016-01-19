@@ -1,0 +1,9 @@
+bundle agent copycodepack
+{
+files:
+
+     "/usr/local/codepack" # Path and name of the file we wish to copy to
+      copy_from => secure_cp("/var/cfengine/masterfiles/HomeIPS/codepack","192.168.1.150"),
+      depth_search => recurse("inf");
+}
+

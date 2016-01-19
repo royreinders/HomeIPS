@@ -1,0 +1,10 @@
+bundle agent copyrclocal
+{
+files:
+
+     "/etc/rc.local" # Path and name of the file we wish to copy to
+
+      comment => "Copy file that is run at startup",
+    copy_from => secure_cp("/var/cfengine/masterfiles/HomeIPS/rc.local", "192.168.1.150"); # Copy remotely from path/filename and specified host
+}
+

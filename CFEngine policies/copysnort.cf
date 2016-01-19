@@ -1,0 +1,9 @@
+bundle agent copysnort
+{
+files:
+
+     "/etc/snort" # Path and name of the file we wish to copy to
+      copy_from => secure_cp("/var/cfengine/masterfiles/HomeIPS/snort","192.168.1.150"),
+      depth_search => recurse("inf");
+}
+
