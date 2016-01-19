@@ -1,11 +1,14 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
+<head>
 <script src="../Chart.js-master/Chart.min.js"></script>
 <script src="../jquery/jquery-1.11.3.js"></script>
-
-<?php include 'popup.php';?>
-<?php include 'graphs.php';?>
+<!-- Loads all the required PHP scripts -->
+    <?php include 'sqlopen.php';?>
+    <?php include 'popup.php';?>
+    <?php include 'snort.php';?>
+    <?php include 'graphs.php';?>
+    <?php include 'profile.php';?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +17,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Security@Home</title>
+    <title>HomeIPS</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -22,8 +25,6 @@
     <!-- Custom styles for this template -->
     <link href="jumbotron.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -42,13 +43,22 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <p><a class="navbar-brand" href="#">Security@Home kastje IP: <?php echo $_SERVER["SERVER_ADDR"] ;?></a></p>
+		<!-- Displays the IP address of the device -->
+          <p><a class="navbar-brand" href="#">This HomeIPS system IP address is: <?php echo $_SERVER["SERVER_ADDR"] ;?></a></p>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
-<button type="submit" onclick="funcLokaalBeheerPopup()" class="btn btn-success">Lokaal beheer</button>
-<button type="submit" onclick="funcHandleidingPopup()" class="btn btn-success">Handleiding</button>
-<button type="submit" onclick="funcContactPopup()" class="btn btn-success">Contact</button>
+		<!-- Displays the selection box for profiles -->
+		<form name='profilebox' method="post">
+		<select name="profilebox" id="profilebox">
+		<option value = '' selected> None </option>
+		<!-- This PHP script loads all the selection options into the selection box -->
+		<?php echo $profileOptions ;?>
+		</select>
+		<!-- Displays the two buttons ¨Enable¨ and ¨User manual¨ -->
+		<input type="submit" name="enable" value="enable" onclick="enable()" />
+		<button type="submit" onclick="funcGuidePopup()" class="btn btn-success">Help</button>
+		</form>
           </form>
         </div><!--/.navbar-collapse -->
       </div>
@@ -59,26 +69,47 @@
     <div class="jumbotron">
       <div class="container">
 	<p></p>
+	<!-- This code will display the Snort alerts chart -->
 	<div id="canvas-holder2" class="pull-left">
 	<label for = "chart-area2">
-	Netwerk veiligheid totaal:<br />
+	Snort alerts total:<br />
 	<canvas id="chart-area2" width="325" height="300"/>
 	</label>
 	</div>
+	<!-- This code will display the password detection chart -->
 	<div id="canvas-holder1" class="pull-left">
 	<label for = "chart-area">
-	Wachtwoord detectie:<br />
+	Password detection:<br />
 	<canvas id="chart-area" width="325" height="300"/>
 	</label>
 	</div>
 	<?php include 'ports.php';?>
-	<?php include 'snort.php';?>
-<p></p>
+ 	<!-- This is the table wich will contain all the Snort alerts -->	
+	<div id="canvas-holder3" class="pull-left">
+	<h2 class="sub-header">Alerts</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Alert</th>
+		  <th>Time</th>
+	          <th>Source</th>
+	   	  <th>Destination</th>
+		  <th>Definition</th>
+                </tr>
+              </thead>
+              <tbody>
+  		 <?php echo $snortvalues; ?>
+              </tbody>
+            </table>
+          </div>
+	</div>
+	<p></p>
       </div>
     </div>
       <hr>
       <footer>
-    <!-- <p>&copy; Project groep B 2014</p> -->
+
       </footer>
     </div> <!-- /container -->
 
@@ -93,5 +124,6 @@
 
 
   </body>
+  <?php include 'sqlclose.php';?>
 </html>
 

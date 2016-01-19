@@ -1,6 +1,5 @@
 <?php
-$networkSafeTotal = 3;
-$networkNotSafeTotal = 0;
+//This PHP code renders all the charts displayed on the website
 $pie1value1text;
 $pie2value2text;
 $pie1value1 = 0;
@@ -25,44 +24,44 @@ $array2 = explode("\n", file_get_contents($filename2));
 	}
     }
  $pie1value2 =  $pie1value2 - $pie1value1;
-//Checks total network safety
-if ($pie1value1 != 0)
-	{
-		$networkNotSafeTotal = $networkNotSafeTotal + 1;
-		$networkSafeTotal = $networkSafeTotal - 1;
-	}
 ?>
 <script>
-
+//Shows the data which will configure the looks of all the pie charts
 		var pieData = [
 				{
 					value: "<?php echo $pie1value1; ?>",
 					color:"#F7464A",
 					highlight: "#FF5A5E",
-					label: "Zwak wachtwoord"
+					label: "Weak password"
 				},
 				{
 					value: "<?php echo $pie1value2; ?>",
 					color: "#46BFBD",
 					highlight: "#5AD3D1",
-					label: "Goed wachtwoord"
+					label: "Strong password"
 				}
 			];
 		var pieData2 = [
 				{
-					value: "<?php echo $networkSafeTotal; ?>",
-					color:"#33CC00",
-					highlight: "#33CC33",
-					label: "Netwerk in orde"
+					value: "<?php echo $highSnortTotal; ?>",
+					color:"#C80000",
+					highlight: "#D80000",
+					label: "High priority"
 				},
 				{
-					value: "<?php echo $networkNotSafeTotal; ?>",
+					value: "<?php echo $mediumSnortTotal; ?>",
 					color: "#CC6600",
 					highlight: "#CC6633",
-					label: "Netwerk niet in orde"
+					label: "Medium priority"
+				},
+				{
+					value: "<?php echo $lowSnortTotal; ?>",
+					color:"#33CC00",
+					highlight: "#33CC33",
+					label: "Low priority"
 				}
 			];
-		
+//The code below this line makes the pie charts clickable. After they are clicked they will show new info.		
  	$(document).ready( 
                 function () {
 			 var ctx = document.getElementById("chart-area").getContext("2d");
@@ -75,7 +74,7 @@ if ($pie1value1 != 0)
                             var activePoints = myPie.getSegmentsAtEvent(evt);
 
                             $.get("Output/Defaultinterface.txt", function(response) {
-    				 var url = "De volgende IP adressen hebben een zwak wachtwoord: \n";	
+    				 var url = "The following IP adresses have a weak password: \n";	
 				 url += response;  
 				  alert(url);
 				});
@@ -85,7 +84,7 @@ if ($pie1value1 != 0)
  	$("#chart-area2").click( 
                         function(evt){
                             var activePoints = myPie2.getSegmentsAtEvent(evt);
-                            var url = "De volgende zaken zijn niet in orde op dit netwerk: \n";
+                            var url = "The following alerts have been detected on your network: \n";
                             alert(url);
                        		     }
                   		);          
